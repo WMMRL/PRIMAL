@@ -43,11 +43,11 @@ def init(data):
     data.ID+=1
     if DYNAMIC_TESTING:
         data.rnn_states=[]
-        data.sess=tf.Session()
+        data.sess=tf.compat.v1.Session()
         data.network=ACNet("global",5,None,False,10,"global")
         #load the weights from the checkpoint (only the global ones!)
         ckpt = tf.train.get_checkpoint_state(model_path)
-        saver = tf.train.Saver()
+        saver = tf.compat.v1.train.Saver()
         saver.restore(data.sess,ckpt.model_checkpoint_path)        
         
 def getDir(action):

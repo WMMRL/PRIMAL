@@ -19,13 +19,13 @@ class PRIMAL(object):
     '''
     def __init__(self,model_path,grid_size):
         self.grid_size=grid_size
-        config = tf.ConfigProto(allow_soft_placement = True)
+        config = tf.compat.v1.ConfigProto(allow_soft_placement = True)
         config.gpu_options.allow_growth=True
-        self.sess=tf.Session(config=config)
+        self.sess=tf.compat.v1.Session(config=config)
         self.network=ACNet("global",5,None,False,grid_size,"global")
         #load the weights from the checkpoint (only the global ones!)
         ckpt = tf.train.get_checkpoint_state(model_path)
-        saver = tf.train.Saver()
+        saver = tf.compat.v1.train.Saver()
         saver.restore(self.sess,ckpt.model_checkpoint_path)
         
     def set_env(self,gym):

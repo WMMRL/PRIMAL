@@ -1,0 +1,215 @@
+TensorFlow 2.0 Upgrade Script
+-----------------------------
+Converted 15 files
+Detected 7 issues that require attention
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+File: PRIMAL_v1/mapgenerator.py
+--------------------------------------------------------------------------------
+PRIMAL_v1/mapgenerator.py:125:8: WARNING: *.save requires manual check. (This warning is only applicable if the code saves a tf.Keras model) Keras model.save now saves to the Tensorflow SavedModel format by default, instead of HDF5. To continue saving to HDF5, add the argument save_format='h5' to the save() function.
+--------------------------------------------------------------------------------
+File: PRIMAL_v1/ACNet.py
+--------------------------------------------------------------------------------
+PRIMAL_v1/ACNet.py:53:49: ERROR: Using member tf.contrib.keras.backend.categorical_crossentropy in deprecated module tf.contrib. tf.contrib.keras.backend.categorical_crossentropy cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+--------------------------------------------------------------------------------
+File: PRIMAL_v1/primal_testing.py
+--------------------------------------------------------------------------------
+PRIMAL_v1/primal_testing.py:120:8: WARNING: *.save requires manual check. (This warning is only applicable if the code saves a tf.Keras model) Keras model.save now saves to the Tensorflow SavedModel format by default, instead of HDF5. To continue saving to HDF5, add the argument save_format='h5' to the save() function.
+--------------------------------------------------------------------------------
+File: PRIMAL_v1/DRLMAPF_A3C_RNN.py
+--------------------------------------------------------------------------------
+PRIMAL_v1/DRLMAPF_A3C_RNN.py:220:24: WARNING: *.save requires manual check. (This warning is only applicable if the code saves a tf.Keras model) Keras model.save now saves to the Tensorflow SavedModel format by default, instead of HDF5. To continue saving to HDF5, add the argument save_format='h5' to the save() function.
+PRIMAL_v1/DRLMAPF_A3C_RNN.py:366:28: WARNING: *.save requires manual check. (This warning is only applicable if the code saves a tf.Keras model) Keras model.save now saves to the Tensorflow SavedModel format by default, instead of HDF5. To continue saving to HDF5, add the argument save_format='h5' to the save() function.
+PRIMAL_v1/DRLMAPF_A3C_RNN.py:496:14: ERROR: Using member tf.contrib.opt.NadamOptimizer in deprecated module tf.contrib. tf.contrib.opt.NadamOptimizer cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+PRIMAL_v1/DRLMAPF_A3C_RNN.py:543:26: ERROR: Using member tf.contrib.opt.NadamOptimizer in deprecated module tf.contrib. tf.contrib.opt.NadamOptimizer cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+================================================================================
+Detailed log follows:
+
+================================================================================
+================================================================================
+Input tree: 'PRIMAL_v1'
+================================================================================
+--------------------------------------------------------------------------------
+Processing file 'PRIMAL_v1/mapgenerator.py'
+ outputting to 'PRIMAL_v2/mapgenerator.py'
+--------------------------------------------------------------------------------
+
+46:18: INFO: Renamed 'tf.Session' to 'tf.compat.v1.Session'
+50:16: INFO: Renamed 'tf.train.Saver' to 'tf.compat.v1.train.Saver'
+125:8: WARNING: *.save requires manual check. (This warning is only applicable if the code saves a tf.Keras model) Keras model.save now saves to the Tensorflow SavedModel format by default, instead of HDF5. To continue saving to HDF5, add the argument save_format='h5' to the save() function.
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'PRIMAL_v1/mapf_gym_cap.py'
+ outputting to 'PRIMAL_v2/mapf_gym_cap.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'PRIMAL_v1/ACNet.py'
+ outputting to 'PRIMAL_v2/ACNet.py'
+--------------------------------------------------------------------------------
+
+21:13: INFO: Renamed 'tf.variable_scope' to 'tf.compat.v1.variable_scope'
+23:26: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+24:26: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+25:27: INFO: Added keywords to args of function 'tf.transpose'
+28:42: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+30:42: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+31:42: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+32:42: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+33:42: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+34:42: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+35:42: INFO: Added keywords to args of function 'tf.reduce_sum'
+36:42: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+37:42: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+42:33: INFO: Added keywords to args of function 'tf.reduce_sum'
+43:35: INFO: Added keywords to args of function 'tf.reduce_sum'
+43:63: INFO: Renamed 'tf.log' to 'tf.math.log'
+44:35: INFO: Added keywords to args of function 'tf.reduce_sum'
+44:49: INFO: Renamed 'tf.log' to 'tf.math.log'
+45:35: INFO: Added keywords to args of function 'tf.reduce_sum'
+45:49: INFO: Renamed 'tf.log' to 'tf.math.log'
+46:49: INFO: Renamed 'tf.log' to 'tf.math.log'
+47:35: INFO: Added keywords to args of function 'tf.reduce_sum'
+47:71: INFO: Renamed 'tf.log' to 'tf.math.log'
+48:65: INFO: Renamed 'tf.log' to 'tf.math.log'
+49:34: INFO: Added keywords to args of function 'tf.reduce_sum'
+49:69: INFO: Renamed 'tf.log' to 'tf.math.log'
+50:64: INFO: Renamed 'tf.log' to 'tf.math.log'
+53:34: INFO: Added keywords to args of function 'tf.reduce_mean'
+53:49: ERROR: Using member tf.contrib.keras.backend.categorical_crossentropy in deprecated module tf.contrib. tf.contrib.keras.backend.categorical_crossentropy cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+57:33: INFO: Renamed 'tf.get_collection' to 'tf.compat.v1.get_collection'
+57:51: INFO: Renamed 'tf.GraphKeys' to 'tf.compat.v1.GraphKeys'
+58:33: INFO: Added keywords to args of function 'tf.gradients'
+59:33: INFO: Renamed 'tf.global_norm' to 'tf.linalg.global_norm'
+63:33: INFO: Renamed 'tf.get_collection' to 'tf.compat.v1.get_collection'
+63:51: INFO: Renamed 'tf.GraphKeys' to 'tf.compat.v1.GraphKeys'
+67:35: INFO: Added keywords to args of function 'tf.gradients'
+68:35: INFO: Renamed 'tf.global_norm' to 'tf.linalg.global_norm'
+97:20: INFO: Renamed 'tf.nn.rnn_cell.BasicLSTMCell' to 'tf.compat.v1.nn.rnn_cell.BasicLSTMCell'
+101:15: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+102:15: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+105:20: INFO: Added keywords to args of function 'tf.shape'
+106:19: INFO: Renamed 'tf.nn.rnn_cell.LSTMStateTuple' to 'tf.compat.v1.nn.rnn_cell.LSTMStateTuple'
+107:35: INFO: Renamed 'tf.nn.dynamic_rnn' to 'tf.compat.v1.nn.dynamic_rnn'
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'PRIMAL_v1/GroupLock.py'
+ outputting to 'PRIMAL_v2/GroupLock.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'PRIMAL_v1/primal_testing.py'
+ outputting to 'PRIMAL_v2/primal_testing.py'
+--------------------------------------------------------------------------------
+
+22:17: INFO: Renamed 'tf.ConfigProto' to 'tf.compat.v1.ConfigProto'
+24:18: INFO: Renamed 'tf.Session' to 'tf.compat.v1.Session'
+28:16: INFO: Renamed 'tf.train.Saver' to 'tf.compat.v1.train.Saver'
+120:8: WARNING: *.save requires manual check. (This warning is only applicable if the code saves a tf.Keras model) Keras model.save now saves to the Tensorflow SavedModel format by default, instead of HDF5. To continue saving to HDF5, add the argument save_format='h5' to the save() function.
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'PRIMAL_v1/mapf_gym.py'
+ outputting to 'PRIMAL_v2/mapf_gym.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'PRIMAL_v1/DRLMAPF_A3C_RNN.py'
+ outputting to 'PRIMAL_v2/DRLMAPF_A3C_RNN.py'
+--------------------------------------------------------------------------------
+
+45:16: INFO: Renamed 'tf.get_collection' to 'tf.compat.v1.get_collection'
+45:34: INFO: Renamed 'tf.GraphKeys' to 'tf.compat.v1.GraphKeys'
+46:14: INFO: Renamed 'tf.get_collection' to 'tf.compat.v1.get_collection'
+46:32: INFO: Renamed 'tf.GraphKeys' to 'tf.compat.v1.GraphKeys'
+220:24: WARNING: *.save requires manual check. (This warning is only applicable if the code saves a tf.Keras model) Keras model.save now saves to the Tensorflow SavedModel format by default, instead of HDF5. To continue saving to HDF5, add the argument save_format='h5' to the save() function.
+240:38: INFO: Renamed 'tf.Summary' to 'tf.compat.v1.Summary'
+366:28: WARNING: *.save requires manual check. (This warning is only applicable if the code saves a tf.Keras model) Keras model.save now saves to the Tensorflow SavedModel format by default, instead of HDF5. To continue saving to HDF5, add the argument save_format='h5' to the save() function.
+376:34: INFO: Renamed 'tf.Summary' to 'tf.compat.v1.Summary'
+468:0: INFO: Renamed 'tf.reset_default_graph' to 'tf.compat.v1.reset_default_graph'
+472:9: INFO: Renamed 'tf.ConfigProto' to 'tf.compat.v1.ConfigProto'
+489:18: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+496:14: ERROR: Using member tf.contrib.opt.NadamOptimizer in deprecated module tf.contrib. tf.contrib.opt.NadamOptimizer cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+523:21: INFO: tf.summary.FileWriter requires manual check. The TF 1.x summary API cannot be automatically migrated to TF 2.0, so symbols have been converted to tf.compat.v1.summary.* and must be migrated manually. Typical usage will only require changes to the summary writing logic, not to individual calls like scalar(). For examples of the new summary API, see the Effective TF 2.0 migration document or check the TF 2.0 TensorBoard tutorials.
+523:21: INFO: Renamed 'tf.summary.FileWriter' to 'tf.compat.v1.summary.FileWriter'
+524:12: INFO: Renamed 'tf.train.Saver' to 'tf.compat.v1.train.Saver'
+526:9: INFO: Renamed 'tf.Session' to 'tf.compat.v1.Session'
+527:17: INFO: Renamed 'tf.global_variables_initializer' to 'tf.compat.v1.global_variables_initializer'
+543:26: ERROR: Using member tf.contrib.opt.NadamOptimizer in deprecated module tf.contrib. tf.contrib.opt.NadamOptimizer cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'PRIMAL_v1/mapf_gym_unittests.py'
+ outputting to 'PRIMAL_v2/mapf_gym_unittests.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'PRIMAL_v1/od_mstar3/col_set_addition.py'
+ outputting to 'PRIMAL_v2/od_mstar3/col_set_addition.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'PRIMAL_v1/od_mstar3/prune_graph.py'
+ outputting to 'PRIMAL_v2/od_mstar3/prune_graph.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'PRIMAL_v1/od_mstar3/interface.py'
+ outputting to 'PRIMAL_v2/od_mstar3/interface.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'PRIMAL_v1/od_mstar3/setup.py'
+ outputting to 'PRIMAL_v2/od_mstar3/setup.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'PRIMAL_v1/od_mstar3/workspace_graph.py'
+ outputting to 'PRIMAL_v2/od_mstar3/workspace_graph.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'PRIMAL_v1/od_mstar3/od_mstar.py'
+ outputting to 'PRIMAL_v2/od_mstar3/od_mstar.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'PRIMAL_v1/od_mstar3/SortedCollection.py'
+ outputting to 'PRIMAL_v2/od_mstar3/SortedCollection.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+

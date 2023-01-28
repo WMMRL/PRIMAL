@@ -18,54 +18,54 @@ def normalized_columns_initializer(std=1.0):
 
 class ACNet:
     def __init__(self, scope, a_size, trainer,TRAINING,GRID_SIZE,GLOBAL_NET_SCOPE):
-        with tf.variable_scope(str(scope)+'/qvalues'):
+        with tf.compat.v1.variable_scope(str(scope)+'/qvalues'):
             #The input size may require more work to fit the interface.
-            self.inputs = tf.placeholder(shape=[None,4,GRID_SIZE,GRID_SIZE], dtype=tf.float32)
-            self.goal_pos=tf.placeholder(shape=[None,3],dtype=tf.float32)
-            self.myinput = tf.transpose(self.inputs, perm=[0,2,3,1])
+            self.inputs = tf.compat.v1.placeholder(shape=[None,4,GRID_SIZE,GRID_SIZE], dtype=tf.float32)
+            self.goal_pos=tf.compat.v1.placeholder(shape=[None,3],dtype=tf.float32)
+            self.myinput = tf.transpose(a=self.inputs, perm=[0,2,3,1])
             self.policy, self.value, self.state_out, self.state_in, self.state_init, self.blocking, self.on_goal,self.valids = self._build_net(self.myinput,self.goal_pos,RNN_SIZE,TRAINING,a_size)
         if TRAINING:
-            self.actions                = tf.placeholder(shape=[None], dtype=tf.int32)
+            self.actions                = tf.compat.v1.placeholder(shape=[None], dtype=tf.int32)
             self.actions_onehot         = tf.one_hot(self.actions, a_size, dtype=tf.float32)
-            self.train_valid            = tf.placeholder(shape=[None,a_size], dtype=tf.float32)
-            self.target_v               = tf.placeholder(tf.float32, [None], 'Vtarget')
-            self.advantages             = tf.placeholder(shape=[None], dtype=tf.float32)
-            self.target_blockings       = tf.placeholder(tf.float32, [None])
-            self.target_on_goals        = tf.placeholder(tf.float32, [None])
-            self.responsible_outputs    = tf.reduce_sum(self.policy * self.actions_onehot, [1])
-            self.train_value            = tf.placeholder(tf.float32, [None])
-            self.optimal_actions        = tf.placeholder(tf.int32,[None])
+            self.train_valid            = tf.compat.v1.placeholder(shape=[None,a_size], dtype=tf.float32)
+            self.target_v               = tf.compat.v1.placeholder(tf.float32, [None], 'Vtarget')
+            self.advantages             = tf.compat.v1.placeholder(shape=[None], dtype=tf.float32)
+            self.target_blockings       = tf.compat.v1.placeholder(tf.float32, [None])
+            self.target_on_goals        = tf.compat.v1.placeholder(tf.float32, [None])
+            self.responsible_outputs    = tf.reduce_sum(input_tensor=self.policy * self.actions_onehot, axis=[1])
+            self.train_value            = tf.compat.v1.placeholder(tf.float32, [None])
+            self.optimal_actions        = tf.compat.v1.placeholder(tf.int32,[None])
             self.optimal_actions_onehot = tf.one_hot(self.optimal_actions, a_size, dtype=tf.float32)
 
             
             # Loss Functions
-            self.value_loss    = tf.reduce_sum(self.train_value*tf.square(self.target_v - tf.reshape(self.value, shape=[-1])))
-            self.entropy       = - tf.reduce_sum(self.policy * tf.log(tf.clip_by_value(self.policy,1e-10,1.0)))
-            self.policy_loss   = - tf.reduce_sum(tf.log(tf.clip_by_value(self.responsible_outputs,1e-15,1.0)) * self.advantages)
-            self.valid_loss    = - tf.reduce_sum(tf.log(tf.clip_by_value(self.valids,1e-10,1.0)) *\
-                                self.train_valid+tf.log(tf.clip_by_value(1-self.valids,1e-10,1.0)) * (1-self.train_valid))
-            self.blocking_loss = - tf.reduce_sum(self.target_blockings*tf.log(tf.clip_by_value(self.blocking,1e-10,1.0))\
-                                      +(1-self.target_blockings)*tf.log(tf.clip_by_value(1-self.blocking,1e-10,1.0)))
-            self.on_goal_loss = - tf.reduce_sum(self.target_on_goals*tf.log(tf.clip_by_value(self.on_goal,1e-10,1.0))\
-                                      +(1-self.target_on_goals)*tf.log(tf.clip_by_value(1-self.on_goal,1e-10,1.0)))
+            self.value_loss    = tf.reduce_sum(input_tensor=self.train_value*tf.square(self.target_v - tf.reshape(self.value, shape=[-1])))
+            self.entropy       = - tf.reduce_sum(input_tensor=self.policy * tf.math.log(tf.clip_by_value(self.policy,1e-10,1.0)))
+            self.policy_loss   = - tf.reduce_sum(input_tensor=tf.math.log(tf.clip_by_value(self.responsible_outputs,1e-15,1.0)) * self.advantages)
+            self.valid_loss    = - tf.reduce_sum(input_tensor=tf.math.log(tf.clip_by_value(self.valids,1e-10,1.0)) *\
+                                self.train_valid+tf.math.log(tf.clip_by_value(1-self.valids,1e-10,1.0)) * (1-self.train_valid))
+            self.blocking_loss = - tf.reduce_sum(input_tensor=self.target_blockings*tf.math.log(tf.clip_by_value(self.blocking,1e-10,1.0))\
+                                      +(1-self.target_blockings)*tf.math.log(tf.clip_by_value(1-self.blocking,1e-10,1.0)))
+            self.on_goal_loss = - tf.reduce_sum(input_tensor=self.target_on_goals*tf.math.log(tf.clip_by_value(self.on_goal,1e-10,1.0))\
+                                      +(1-self.target_on_goals)*tf.math.log(tf.clip_by_value(1-self.on_goal,1e-10,1.0)))
             self.loss          = 0.5 * self.value_loss + self.policy_loss + 0.5*self.valid_loss \
                             - self.entropy * 0.01 +.5*self.blocking_loss
-            self.imitation_loss = tf.reduce_mean(tf.contrib.keras.backend.categorical_crossentropy(self.optimal_actions_onehot,self.policy)) 
+            self.imitation_loss = tf.reduce_mean(input_tensor=tf.contrib.keras.backend.categorical_crossentropy(self.optimal_actions_onehot,self.policy)) 
             
             # Get gradients from local network using local losses and
             # normalize the gradients using clipping
-            local_vars         = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope+'/qvalues')
-            self.gradients     = tf.gradients(self.loss, local_vars)
-            self.var_norms     = tf.global_norm(local_vars)
+            local_vars         = tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.TRAINABLE_VARIABLES, scope+'/qvalues')
+            self.gradients     = tf.gradients(ys=self.loss, xs=local_vars)
+            self.var_norms     = tf.linalg.global_norm(local_vars)
             grads, self.grad_norms = tf.clip_by_global_norm(self.gradients, GRAD_CLIP)
 
             # Apply local gradients to global network
-            global_vars        = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, GLOBAL_NET_SCOPE+'/qvalues')
+            global_vars        = tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.TRAINABLE_VARIABLES, GLOBAL_NET_SCOPE+'/qvalues')
             self.apply_grads   = trainer.apply_gradients(zip(grads, global_vars))
 
             #now the gradients for imitation loss
-            self.i_gradients     = tf.gradients(self.imitation_loss, local_vars)
-            self.i_var_norms     = tf.global_norm(local_vars)
+            self.i_gradients     = tf.gradients(ys=self.imitation_loss, xs=local_vars)
+            self.i_var_norms     = tf.linalg.global_norm(local_vars)
             i_grads, self.i_grad_norms = tf.clip_by_global_norm(self.i_gradients, GRAD_CLIP)
 
             # Apply local gradients to global network
@@ -94,17 +94,17 @@ class ACNet:
         d2 = layers.dropout(h2, keep_prob=KEEP_PROB2, is_training=TRAINING)
         self.h3 = tf.nn.relu(d2+hidden_input)
         #Recurrent network for temporal dependencies
-        lstm_cell = tf.nn.rnn_cell.BasicLSTMCell(RNN_SIZE,state_is_tuple=True)
+        lstm_cell = tf.compat.v1.nn.rnn_cell.BasicLSTMCell(RNN_SIZE,state_is_tuple=True)
         c_init = np.zeros((1, lstm_cell.state_size.c), np.float32)
         h_init = np.zeros((1, lstm_cell.state_size.h), np.float32)
         state_init = [c_init, h_init]
-        c_in = tf.placeholder(tf.float32, [1, lstm_cell.state_size.c])
-        h_in = tf.placeholder(tf.float32, [1, lstm_cell.state_size.h])
+        c_in = tf.compat.v1.placeholder(tf.float32, [1, lstm_cell.state_size.c])
+        h_in = tf.compat.v1.placeholder(tf.float32, [1, lstm_cell.state_size.h])
         state_in = (c_in, h_in)
         rnn_in = tf.expand_dims(self.h3, [0])
-        step_size = tf.shape(inputs)[:1]
-        state_in = tf.nn.rnn_cell.LSTMStateTuple(c_in, h_in)
-        lstm_outputs, lstm_state = tf.nn.dynamic_rnn(
+        step_size = tf.shape(input=inputs)[:1]
+        state_in = tf.compat.v1.nn.rnn_cell.LSTMStateTuple(c_in, h_in)
+        lstm_outputs, lstm_state = tf.compat.v1.nn.dynamic_rnn(
         lstm_cell, rnn_in, initial_state=state_in, sequence_length=step_size,
         time_major=False)
         lstm_c, lstm_h = lstm_state
