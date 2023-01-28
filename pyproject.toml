@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "primal"
+version = "0.1.0"
+description = ""
+authors = ["FUJISHIGE TEMMA <tenma.x0@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+cython = "^0.29.33"
+gym = "^0.26.2"
+tensorflow = "^2.11.0"
+numpy = "^1.24.1"
+matplotlib = "^3.6.3"
+imageio = "^2.25.0"
+tk = "^0.1.0"
+networkx = "^3.0"
+scipy = "^1.10.0"
+tf-slim = "^1.1.0"
+black = "^22.12.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
