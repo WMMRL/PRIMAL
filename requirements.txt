@@ -116,6 +116,7 @@ tensorflow-estimator==2.11.0
 tensorflow-io-gcs-filesystem==0.30.0
 termcolor==2.2.0
 terminado==0.17.1
+tf-slim==1.1.0
 tinycss2==1.2.1
 tk==0.1.0
 tomli==2.0.1

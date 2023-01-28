@@ -6,17 +6,12 @@ from __future__ import division
 import multiprocessing
 import os
 import pickle
-import random
 import threading
-import time
 
-import gym
 import imageio
-import matplotlib.pyplot as plt
 import numpy as np
 import scipy.signal as signal
 import tensorflow as tf
-import tensorflow.contrib.layers as layers
 from tensorflow.python.client import device_lib
 
 import GroupLock
@@ -493,7 +488,8 @@ with tf.device("/gpu:0"):
         lr = tf.divide(tf.constant(LR_Q), tf.sqrt(tf.add(1.0, tf.multiply(tf.constant(ADAPT_COEFF), global_step))))
     else:
         lr = tf.constant(LR_Q)
-    trainer = tf.contrib.opt.NadamOptimizer(learning_rate=lr, use_locking=True)
+    # trainer = tf.contrib.opt.NadamOptimizer(learning_rate=lr, use_locking=True)
+    trainer = tf.keras.optimizers.Nadam(learning_rate=lr)
 
     if TRAINING:
         num_workers = NUM_THREADS  # Set workers # = # of available CPU threads
@@ -540,7 +536,8 @@ with tf.device("/gpu:0"):
             saver.restore(sess, ckpt.model_checkpoint_path)
             print("episode_count set to ", episode_count)
             if RESET_TRAINER:
-                trainer = tf.contrib.opt.NadamOptimizer(learning_rate=lr, use_locking=True)
+                # trainer = tf.contrib.opt.NadamOptimizer(learning_rate=lr, use_locking=True)
+                trainer = tf.keras.optimizers.Nadam(learning_rate=lr)
 
         # This is where the asynchronous magic happens.
         # Start the "work" process for each worker in a separate thread.
